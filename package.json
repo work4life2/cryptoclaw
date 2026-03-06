@@ -1,17 +1,30 @@
 {
   "name": "@termix-it/cryptoclaw",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Private crypto AI assistant — wallet management, DeFi, NFTs, and multi-chain operations from your terminal",
-  "keywords": [],
-  "homepage": "https://github.com/openclaw/openclaw#readme",
+  "keywords": [
+    "ai",
+    "blockchain",
+    "cli",
+    "crypto",
+    "defi",
+    "ethereum",
+    "multi-chain",
+    "nft",
+    "solana",
+    "terminal",
+    "wallet",
+    "web3"
+  ],
+  "homepage": "https://github.com/TermiX-official/cryptoclaw#readme",
   "bugs": {
-    "url": "https://github.com/openclaw/openclaw/issues"
+    "url": "https://github.com/TermiX-official/cryptoclaw/issues"
   },
   "license": "MIT",
-  "author": "",
+  "author": "TermiX",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openclaw/openclaw.git"
+    "url": "git+https://github.com/TermiX-official/cryptoclaw.git"
   },
   "bin": {
     "openclaw": "openclaw.mjs"
