@@ -52,16 +52,24 @@ export async function setupSkills(
   workspaceDir: string,
   runtime: RuntimeEnv,
   prompter: WizardPrompter,
+  /** When provided, only skills whose names are in this set will be shown in the installer. */
+  skillNameFilter?: Set<string>,
 ): Promise<OpenClawConfig> {
   const report = buildWorkspaceSkillStatus(workspaceDir, { config: cfg });
-  const eligible = report.skills.filter((s) => s.eligible);
+  const filterSkill = (name: string) => !skillNameFilter || skillNameFilter.has(name);
+  const eligible = report.skills.filter((s) => s.eligible && filterSkill(s.name));
   const unsupportedOs = report.skills.filter(
-    (s) => !s.disabled && !s.blockedByAllowlist && s.missing.os.length > 0,
+    (s) => !s.disabled && !s.blockedByAllowlist && s.missing.os.length > 0 && filterSkill(s.name),
   );
   const missing = report.skills.filter(
-    (s) => !s.eligible && !s.disabled && !s.blockedByAllowlist && s.missing.os.length === 0,
+    (s) =>
+      !s.eligible &&
+      !s.disabled &&
+      !s.blockedByAllowlist &&
+      s.missing.os.length === 0 &&
+      filterSkill(s.name),
   );
-  const blocked = report.skills.filter((s) => s.blockedByAllowlist);
+  const blocked = report.skills.filter((s) => s.blockedByAllowlist && filterSkill(s.name));
 
   await prompter.note(
     [

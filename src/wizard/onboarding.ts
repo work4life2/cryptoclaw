@@ -477,7 +477,37 @@ export async function runOnboardingWizard(
     await prompter.note("Skipping skills setup.", "Skills");
   } else {
     const { setupSkills } = await import("../commands/onboard-skills.js");
-    nextConfig = await setupSkills(nextConfig, workspaceDir, runtime, prompter);
+    // Only surface crypto-relevant skills during onboarding.
+    const cryptoSkillNames = new Set([
+      "wallet-manager",
+      "token-swap",
+      "market-data",
+      "portfolio-tracker",
+      "whale-watcher",
+      "gas-tracker",
+      "nft-manager",
+      "defi-dashboard",
+      "coingecko",
+      "defillama",
+      "debank",
+      "etherscan",
+      "dune",
+      "hyperliquid",
+      "binance-spot",
+      "binance-market-rank",
+      "binance-token-info",
+      "binance-token-audit",
+      "binance-trading-signal",
+      "binance-address-info",
+      "binance-meme-rush",
+      "aave-bsc",
+      "four-meme",
+      "agent-identity",
+      "contract-deployer",
+      "security-check",
+      "oracle",
+    ]);
+    nextConfig = await setupSkills(nextConfig, workspaceDir, runtime, prompter, cryptoSkillNames);
   }
 
   // Show built-in crypto skills
