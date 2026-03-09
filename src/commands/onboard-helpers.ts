@@ -99,15 +99,36 @@ export function validateGatewayPasswordInput(value: unknown): string | undefined
 }
 
 export function printWizardHeader(runtime: RuntimeEnv) {
-  const header = [
-    "╔══════════════════════════════════════════════════════╗",
-    "║                                                      ║",
-    "║          🦞  C R Y P T O C L A W  🦞                ║",
-    "║       Private Crypto AI Assistant — Terminal         ║",
-    "║                                                      ║",
-    "╚══════════════════════════════════════════════════════╝",
-    " ",
-  ].join("\n");
+  // Each letter defined as 5 rows of 5-char-wide block art.
+  const letters: string[][] = [
+    // C
+    [" ███ ", "█    ", "█    ", "█    ", " ███ "],
+    // R
+    ["████ ", "█  █ ", "████ ", "█ █  ", "█  █ "],
+    // Y
+    ["█   █", "█   █", " ███ ", "  █  ", "  █  "],
+    // P
+    ["████ ", "█  █ ", "████ ", "█    ", "█    "],
+    // T
+    ["█████", "  █  ", "  █  ", "  █  ", "  █  "],
+    // O
+    [" ███ ", "█   █", "█   █", "█   █", " ███ "],
+    // C
+    [" ███ ", "█    ", "█    ", "█    ", " ███ "],
+    // L
+    ["█    ", "█    ", "█    ", "█    ", "█████"],
+    // A
+    [" ███ ", "█   █", "█████", "█   █", "█   █"],
+    // W
+    ["█   █", "█   █", "█ █ █", "██ ██", "█   █"],
+  ];
+  const rows = Array.from(
+    { length: 5 },
+    (_, i) => "  " + letters.map((letter) => letter[i]).join(" "),
+  );
+  const header = [" ", ...rows, " ", "  🦞  Private Crypto AI Assistant — Terminal  🦞", " "].join(
+    "\n",
+  );
   runtime.log(header);
 }
 
