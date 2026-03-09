@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { loadConfig } from "../config/config.js";
 import { resolveCommitHash } from "../infra/git-commit.js";
 import { visibleWidth } from "../terminal/ansi.js";
@@ -61,22 +62,24 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
   const commitLabel = commit ?? "unknown";
   const tagline = pickTagline({ ...options, mode: resolveTaglineMode(options) });
   const rich = options.richTty ?? isRich();
-  const title = "🦀 CryptoClaw";
-  const prefix = "🦀 ";
+  const title = "🦞 CryptoClaw";
+  const prefix = "🦞 ";
   const columns = options.columns ?? process.stdout.columns ?? 120;
   const plainBaseLine = `${title} ${version} (${commitLabel})`;
   const plainFullLine = tagline ? `${plainBaseLine} — ${tagline}` : plainBaseLine;
   const fitsOnOneLine = visibleWidth(plainFullLine) <= columns;
   if (rich) {
+    const greenHeading = chalk.bold.hex("#2FBF71");
+    const greenVersion = chalk.hex("#3dd68c");
     if (fitsOnOneLine) {
       if (!tagline) {
-        return `${theme.heading(title)} ${theme.info(version)} ${theme.muted(`(${commitLabel})`)}`;
+        return `${greenHeading(title)} ${greenVersion(version)} ${theme.muted(`(${commitLabel})`)}`;
       }
-      return `${theme.heading(title)} ${theme.info(version)} ${theme.muted(
+      return `${greenHeading(title)} ${greenVersion(version)} ${theme.muted(
         `(${commitLabel})`,
-      )} ${theme.muted("—")} ${theme.accentDim(tagline)}`;
+      )} ${theme.muted("—")} ${theme.success(tagline)}`;
     }
-    const line1 = `${theme.heading(title)} ${theme.info(version)} ${theme.muted(
+    const line1 = `${greenHeading(title)} ${greenVersion(version)} ${theme.muted(
       `(${commitLabel})`,
     )}`;
     if (!tagline) {
@@ -102,7 +105,7 @@ const LOBSTER_ASCII = [
   "██░███░██░████░███░██░▄▄▄██░▄▄▄██░███░██░▀▀░██░█░▄█░▀▀░██░████",
   "██░▀▀▀░██░▀▀░█░▀▀▀░██░▀▀▀██░▀▀▀██░▀▀▀░██░██░██▄▀▄▀▄░██░██▄▀▄██",
   "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
-  "                   🦀 CRYPTOCLAW 🦀                    ",
+  "                   🦞 CRYPTOCLAW 🦞                    ",
   " ",
 ];
 
@@ -114,13 +117,13 @@ export function formatCliBannerArt(options: BannerOptions = {}): string {
 
   const colorChar = (ch: string) => {
     if (ch === "█") {
-      return theme.accentBright(ch);
+      return theme.success(ch);
     }
     if (ch === "░") {
-      return theme.accentDim(ch);
+      return chalk.hex("#1a8a4a")(ch);
     }
     if (ch === "▀") {
-      return theme.accent(ch);
+      return chalk.hex("#3dd68c")(ch);
     }
     return theme.muted(ch);
   };
@@ -129,9 +132,9 @@ export function formatCliBannerArt(options: BannerOptions = {}): string {
     if (line.includes("CRYPTOCLAW")) {
       return (
         theme.muted("               ") +
-        theme.accent("🦀") +
-        theme.info(" CRYPTOCLAW ") +
-        theme.accent("🦀")
+        theme.success("🦞") +
+        theme.success(" CRYPTOCLAW ") +
+        theme.success("🦞")
       );
     }
     return splitGraphemes(line).map(colorChar).join("");
